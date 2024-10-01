@@ -14,19 +14,43 @@ public class ProductTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return 0;
+        return productList.size();
     }
 
     @Override
     public int getColumnCount() {
-        return 0;
+        return columnNames.length;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return null;
+        Product product = productList.get(rowIndex);
+        switch (columnIndex) {
+            case 0: return product.getId();
+            case 1: return product.getName();
+            case 2: return product.getPrice();
+            case 3: return product.getQuantity();
+            default: return null;
+        }
     }
 
-    // Implementa los métodos requeridos (getRowCount, getColumnCount, getValueAt)
-    // Agrega el método addProduct
+    @Override
+    public String getColumnName(int column) {
+        return columnNames[column];
+    }
+
+    public void addProduct(Product product) {
+        productList.add(product);
+        int rowIndex = productList.size() - 1;
+        fireTableRowsInserted(rowIndex, rowIndex);
+    }
+
+    public void clear() {
+        productList.clear();
+        fireTableDataChanged();
+    }
+
+    public Product getProductAt(int rowIndex) {
+        return productList.get(rowIndex);
+    }
 }
